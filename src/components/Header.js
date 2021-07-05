@@ -1,16 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import AddIcon from "@material-ui/icons/Add";
-import { Button } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import SearchIcon from "@material-ui/icons/Search";
 import StarIcon from "@material-ui/icons/Star";
 import TheatersIcon from "@material-ui/icons/Theaters";
 import LiveTvIcon from "@material-ui/icons/LiveTv";
+import { auth } from "../firebase";
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
 const Header = () => {
+  const user = useSelector(selectUser);
   return (
     <Container>
       <DisneyIcon src="images/logo.svg" />
+
       <NavMenu>
         <IconComp>
           <HomeIcon />
@@ -37,9 +42,19 @@ const Header = () => {
           <p>Series</p>
         </IconComp>
       </NavMenu>
-      <ButtonComp>
-        <Button variant="outlined">Login</Button>
-      </ButtonComp>
+      {!user && (
+        <ButtonComp>
+          <Button variant="outlined">Login</Button>
+        </ButtonComp>
+      )}
+      {user && (
+        <Avatar
+          onClick={() => {
+            auth.signOut();
+          }}
+          src={user.photo}
+        ></Avatar>
+      )}
     </Container>
   );
 };

@@ -1,21 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import { selectUser } from "../features/userSlice";
+import { auth, provider } from "../firebase";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Login = () => {
+  const user = useSelector(selectUser);
+
+  const signInHandler = () => {
+    auth
+      .signInWithPopup(provider)
+      .then((user) => {
+        console.log("userr...", user);
+      })
+      .catch((error) => {
+        console.log("error", error.message);
+      });
+  };
   return (
     <Container>
-      <Content>
-        <BgImage />
-        <CTA>
-          <CTALogoOne src="/images/cta-logo-one.svg" />
-          <LoginButton>GET ALL THERE</LoginButton>
-          <LoginText>
-            Get Premier Access to Raya and the Last Dragon for an additional fee
-            with a Disney+ subscription. As of 03/26/21, the price of Disney+
-            and The Disney Bundle will increase by $1.
-          </LoginText>
-          <CTALogoTwo src="/images/cta-logo-two.png"></CTALogoTwo>
-        </CTA>
-      </Content>
+      {user && <Redirect to="/home"></Redirect>}
+      {!user && (
+        <Content>
+          <BgImage />
+          <CTA>
+            <CTALogoOne src="/images/cta-logo-one.svg" />
+            <LoginButton onClick={signInHandler}>GET ALL THERE</LoginButton>
+            <LoginText>
+              Get Premier Access to Raya and the Last Dragon for an additional
+              fee with a Disney+ subscription. As of 03/26/21, the price of
+              Disney+ and The Disney Bundle will increase by $1.
+            </LoginText>
+            <CTALogoTwo src="/images/cta-logo-two.png"></CTALogoTwo>
+          </CTA>
+        </Content>
+      )}
     </Container>
   );
 };
