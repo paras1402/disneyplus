@@ -2,15 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { selectUser } from "../features/userSlice";
 import { auth, provider } from "../firebase";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Login = () => {
   const user = useSelector(selectUser);
-
+  const history = useHistory();
   const signInHandler = () => {
     auth
       .signInWithPopup(provider)
       .then((user) => {
+        history.push("/home");
         console.log("userr...", user);
       })
       .catch((error) => {

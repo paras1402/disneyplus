@@ -1,16 +1,24 @@
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import { auth } from "./firebase";
 import { login, logout, selectUser } from "./features/userSlice";
 import { useEffect } from "react";
 import Home from "./components/Home";
+
 function App() {
   const dispatch = useDispatch();
 
+  const history = useHistory();
   const user = useSelector(selectUser);
+
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
