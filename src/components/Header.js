@@ -10,7 +10,7 @@ import LiveTvIcon from "@material-ui/icons/LiveTv";
 import { auth, provider } from "../firebase";
 import { logout, selectUser } from "../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Header = () => {
   const user = useSelector(selectUser);
@@ -35,7 +35,9 @@ const Header = () => {
   };
   return (
     <Container>
-      <DisneyIcon src="images/logo.svg" />
+      <Link to="/">
+        <DisneyIcon src="/images/logo.svg" />
+      </Link>
 
       {!user && (
         <ButtonComp>
@@ -47,10 +49,13 @@ const Header = () => {
       {user && (
         <>
           <NavMenu>
-            <IconComp>
-              <HomeIcon />
-              <p>Home</p>
-            </IconComp>
+            <Link to="/">
+              <IconComp>
+                <HomeIcon />
+                <p>Home</p>
+              </IconComp>
+            </Link>
+
             <IconComp>
               <SearchIcon />
               <p>Search</p>
